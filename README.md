@@ -2,7 +2,7 @@
 
 
 ### DESCRIPTION
-Predicts final score of an NBA game based on first quarter statistcs with MLP regression.
+Predicts final score of an NBA game based on first quarter statistics with MLP regression.
 
 ### WEB SCRAPER
 To begin, I created a python web scraper to get the necessary statistics from [www.basketball-reference.com/](https://www.basketball-reference.com/). I began by collecting the ids (aka csk) of every game from October 2016 to March 2021--over 5,000 games! Next, I accessed the box score webpages of every game with the ids that I collected earlier and parsed it using [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). Finally, I collected the basic box score stats after the first quarter as well as the final score and inserted these  into a csv file.
