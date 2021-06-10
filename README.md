@@ -16,7 +16,7 @@ and regular season wins from each team, we get a prediction of 115-104, not too 
 
 
 <img src="demo.gif" width="750">
-<img src="demo 2.PNG" width="750">
+<img src="demo2.PNG" width="750">
 
 ### TECHNOLOGIES & FRAMEWORKS
 - Python
