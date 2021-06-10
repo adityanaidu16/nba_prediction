@@ -6,12 +6,14 @@ import re
 boxscores = []
 visitteams = []
 fullStats = []
+
 months = ['october', 'november', 'december', 'january', 'february', 'march']
 years = ['2017', '2018', '2019', '2020', '2021']
 
-for y in years:                                                                                                      # Collect y-year Schedule page
+# loop through NBA schedule from October 2017 to March 2021 and collect game id (aka csk) and team names 
+for y in years:
     for m in months:
-        page = requests.get(('https://www.basketball-reference.com/leagues/NBA_{}_games-{}.html').format(y,m))       # Collect m-month Schedule page
+        page = requests.get(('https://www.basketball-reference.com/leagues/NBA_{}_games-{}.html').format(y,m))
 
         soup = BeautifulSoup(page.text, 'html.parser')
 
@@ -22,10 +24,11 @@ for y in years:                                                                 
             else:
                 pass
 
-        for link in soup.find_all('td', attrs={'data-stat':'visitor_team_name'}):
+        for link in soup.find_all('td', attrs={'data-stat':'visitor_team_name'}):                                   # collect visiting team abbreviation                     
             visitteams.append((link.get('csk'))[0:3])
 
-res = dict(zip(boxscores, visitteams))
+res = dict(zip(boxscores, visitteams))                                                                              # combine above results into dictionary
+
 fields=['fg', 'fga', 'fg3', 'fg3a', 'ft', 'fta', 'orb', 'drb', 'ast', 'stl', 'blk', 'tov', 'pf', 'pts','finalpoints', 'wins', 'gp','oppfg', 'oppfga', 'oppfg3', 'oppfg3a', 'oppft', 'oppfta', 'opporb', 'oppdrb', 'oppast', 'oppstl', 'oppblk', 'opptov', 'opppf', 'opppts', 'oppfinalpoints', 'oppwins', 'oppgp']
 
 with open("nbascrape.csv", "w", newline='') as csvFile:
@@ -34,21 +37,22 @@ with open("nbascrape.csv", "w", newline='') as csvFile:
     numprocess=0
     times = 1
 
-    for csk in res:
+    for csk in res:                                                                                                 # provides user status on process
         numprocess+=1
         if numprocess==100:
             print((numprocess*times), end = '')
-            print("games done")
+            print(" games done")
             numprocess = 0
             times+=1
 
-        page = requests.get(('https://www.basketball-reference.com/boxscores/{}.html').format(csk))                 # Collect the page
+        page = requests.get(('https://www.basketball-reference.com/boxscores/{}.html').format(csk))                 # Collect box score page
 
         soup = BeautifulSoup(page.text, 'html.parser')                                                              # Create a BeautifulSoup object 
 
         homestats = []
         awaystats = []
 
+        # get home & away abbreviations
         home = (csk[-3:])
         away = res[csk]
 
@@ -68,10 +72,10 @@ with open("nbascrape.csv", "w", newline='') as csvFile:
             tov=a.find_all('td', attrs={'data-stat':'tov'})
             pf=a.find_all('td', attrs={'data-stat':'pf'})
             pts=a.find_all('td', attrs={'data-stat':'pts'})
-            for a in soup.find_all(id=('box-{}-game-basic').format(home)):
+            for a in soup.find_all(id=('box-{}-game-basic').format(home)):                                          # get final number of points stat
                 finalpoints=a.find_all('td', attrs={'data-stat':'pts'})
 
-            for a in soup.find_all(id=('box-{}-game-basic_sh').format(home)):
+            for a in soup.find_all(id=('box-{}-game-basic_sh').format(home)):                                       # get win/loss stats
                 record=a.find('h2')
             record = str(record)
             record = re.findall('\(([^)]+)', record)
@@ -82,7 +86,7 @@ with open("nbascrape.csv", "w", newline='') as csvFile:
             gp = wins+losses
 
 
-            while len(homestats) < 13:
+            while len(homestats) < 16:
                 homestats.append(fg.pop().text)
                 homestats.append(fga.pop().text)
                 homestats.append(fg3.pop().text)
@@ -119,10 +123,10 @@ with open("nbascrape.csv", "w", newline='') as csvFile:
             tov=a.find_all('td', attrs={'data-stat':'tov'})
             pf=a.find_all('td', attrs={'data-stat':'pf'})
             pts=a.find_all('td', attrs={'data-stat':'pts'})
-            for a in soup.find_all(id=('box-{}-game-basic').format(away)):
+            for a in soup.find_all(id=('box-{}-game-basic').format(away)):                                          # get final number of points stat
                 finalpoints=a.find_all('td', attrs={'data-stat':'pts'})
 
-            for a in soup.find_all(id=('box-{}-game-basic_sh').format(away)):
+            for a in soup.find_all(id=('box-{}-game-basic_sh').format(away)):                                       # get win/loss stats
                 record=a.find('h2')
             record = str(record)
             record = re.findall('\(([^)]+)', record)
@@ -152,6 +156,7 @@ with open("nbascrape.csv", "w", newline='') as csvFile:
                 awaystats.append(wins)
                 awaystats.append(gp)
             else:
+                # create row with home and away stats
                 fullStats = homestats + awaystats
                 csvwriter.writerow(fullStats)
                 break
