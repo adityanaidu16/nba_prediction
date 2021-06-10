@@ -11,4 +11,4 @@ Using MLP regression from the scikit learn neural network,
 Lets test the recent game 2 of the Eastern Conference Semi-finals: Atlanta Hawks vs Philadelphia 76ers. After entering the first quarter stats and regular season wins
 from each team, we get a prediction of 115-104, not too far off of the actual final score 118-102.
 ![Demo gif](demo.gif)
-![Demo png](demo.png)
+![Demo png](demo.PNG)
