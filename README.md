@@ -15,8 +15,8 @@ Lets test the recent game 2 of the Eastern Conference Semifinals: Atlanta Hawks 
 and regular season wins from each team, we get a prediction of 115-104, not too far off of the actual final score 118-102.
 
 <p align="center">
-<img src="demo.gif" width="1080" class="center">
-<img src="demo2.PNG" width="1080" class="center">
+<img src="demo.gif">
+<img src="demo2.PNG">
 </p>
 
 ### TECHNOLOGIES & FRAMEWORKS
