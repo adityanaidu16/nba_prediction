@@ -19,6 +19,6 @@ and regular season wins from each team, we get a prediction of 115-104, not too 
 
 ### TECHNOLOGIES & FRAMEWORKS
 - Python
-- Web Scraping (BeautfulSoup)
+- Web Scraping (BeautifulSoup)
 - Data Analysis/Deep Learning (Multi-layer Perceptron Regression)
 
