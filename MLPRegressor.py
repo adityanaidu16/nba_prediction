@@ -27,7 +27,7 @@ def main():
     X_train, Y_train = X_train.iloc[mask, :], Y_train.iloc[mask]
 
     # create MLP Regressor
-    regr = MLPRegressor(random_state=0, max_iter=500).fit(X_train, Y_train)
+    regr = MLPRegressor(hidden_layer_sizes=(100, 100, 100,), random_state=0, max_iter=500).fit(X_train, Y_train)
 
     # optional additional information (metrics score, MSE)
     #expected_y  = Y_test
